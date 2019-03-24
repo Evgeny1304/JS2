@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Каталог товаров</title>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+          integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700,900" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -81,8 +82,8 @@
              <a href="#" class="menu__link">${link}</a>
          </li>`;
 
-    const renderMenuList = links =>{
-      document.querySelector(".menu").innerHTML = links.map(renderMenu).join("");
+    const renderMenuList = links => {
+        document.querySelector(".menu").innerHTML = links.map(renderMenu).join("");
     };
 
     renderMenuList(menuLinks);
@@ -118,7 +119,7 @@
             this.products = [];
         }
 
-        fetchProducts () {
+        fetchProducts() {
             this.products = [
                 {name: "Mango People Hoodie", price: 70, image: "img/cat-item01.jpg"},
                 {name: "Mango People Coat", price: 120, image: "img/cat-item02.jpg"},
@@ -134,20 +135,20 @@
             this.products = this.products.map(product => new Product(product.name, product.price, product.image));
         }
 
-        getFullSum (){
+        getFullSum() {
             let sum = 0;
-            for (let i of this.products){
+            for (let i of this.products) {
                 sum += i.price;
             }
             return `Общая сумма товаров каталога составляет ${sum}$`;
         }
 
-        render () {
+        render() {
             return this.products.map(product => product.render()).join("");
         }
 
-        remove (){
-            this.products.splice(0,1); //удаляем первый элемент массива products
+        remove() {
+            this.products.splice(0, 1); //удаляем первый элемент массива products
             return this.products.map(product => product.render()).join("");
         }
     }
