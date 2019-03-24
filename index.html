@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Каталог товаров</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="header not-main-header">
+    <div class="container">
+        <div class="top-nav d-flex align-i-с space-btw">
+            <div class="nav-left d-flex align-i-с">
+                <a class="nav-left__logo d-flex logo" href="#">
+                    <img src="img/logo.png" class="logo__img" alt="Brand">
+                    <span class="logo__text">
+                        BRAN
+                    </span>
+                    <span class="logo__text logo__text_pink">
+                        D
+                    </span>
+                </a>
+                <div class="nav-left__menu d-flex align-i-с">
+                    <div class="nav-left__drop">
+                        <a href="#" class="nav-left__browse d-flex">
+                            Browse
+                            <i class="fas fa-caret-down nav-left__triangle"></i>
+                        </a>
+                    </div>
+                    <input class=" nav-left__input" type="text" placeholder="Search for Item...">
+                    <button class=" nav-left__search button" type="button">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="nav-right d-flex align-i-с">
+                <div class="nav-right__drop">
+                    <a href="#" class="nav-right__img">
+                        <img src="img/cart.svg" alt="cart">
+                    </a>
+                </div>
+                <button type="button" class="nav-right__btn button">
+                    My Account
+                    <i class="fas fa-caret-down"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="navigation">
+        <div class="container">
+            <nav class="nav">
+                <ul class="menu d-flex">
+
+                </ul>
+            </nav>
+        </div>
+    </div>
+</header>
+<section class="main">
+    <div class="container">
+        <div class="product-box d-flex space-btw">
+
+        </div>
+    </div>
+</section>
+<script>
+    //Создание меню
+    const menuLinks = [
+        {link: "Home"},
+        {link: "Men"},
+        {link: "Women"},
+        {link: "Kids"},
+        {link: "Accessories"},
+        {link: "Featured"},
+        {link: "Hot Deals"}
+    ];
+
+    const renderMenu = ({link}) =>
+        `<li class="menu__list">
+             <a href="#" class="menu__link">${link}</a>
+         </li>`;
+
+    const renderMenuList = links =>{
+      document.querySelector(".menu").innerHTML = links.map(renderMenu).join("");
+    };
+
+    renderMenuList(menuLinks);
+
+    //Создание каталога товаров
+    const products = [
+        {name: "Mango People Hoodie", price: 70, image: "img/cat-item01.jpg"},
+        {name: "Mango People Coat", price: 120, image: "img/cat-item02.jpg"},
+        {name: "Mango People Blazer", price: 80, image: "img/cat-item07.jpg"},
+        {name: "Mango People T-shirt", price: 50, image: "img/cat-item04.jpg"},
+        {name: "Mango People Sweater", price: 90, image: "img/cat-item05.jpg"},
+        {name: "Mango People Windbreaker", price: 100, image: "img/cat-item06.jpg"},
+        {name: "Mango People Blazer", price: 80, image: "img/cat-item07.jpg"},
+        {name: "Mango People Jacket", price: 110, image: "img/cat-item08.jpg"},
+        {name: "Mango People T-shirt", price: 50, image: "img/cat-item09.jpg"}
+    ];
+
+    const renderProduct = ({name, price, image="img/cat-item01.jpg"}) =>
+        `<div class="product-box__item">
+            <a href="#" class="product-box__product">
+                <img src=${image} alt="Product" class="product-box__img">
+            </a>
+            <div class="product-box__overlay d-flex">
+                 <a href="#" class="product-box__add-cart">
+                      Add to Cart
+                 </a>
+            </div>
+            <div class="product-box__description">
+                <p class="product-box__text">${name}</p>
+                <p class="product-box__price">$${price}</p>
+            </div>
+        </div>`;
+
+    const renderProductList = products => {
+        document.querySelector(".product-box").innerHTML = products.map(renderProduct).join("");
+    };
+
+    renderProductList(products);
+</script>
+</body>
+</html>
