@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Каталог товаров</title>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+          integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700,900" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -81,29 +82,24 @@
              <a href="#" class="menu__link">${link}</a>
          </li>`;
 
-    const renderMenuList = links =>{
-      document.querySelector(".menu").innerHTML = links.map(renderMenu).join("");
+    const renderMenuList = links => {
+        document.querySelector(".menu").innerHTML = links.map(renderMenu).join("");
     };
 
     renderMenuList(menuLinks);
 
     //Создание каталога товаров
-    const products = [
-        {name: "Mango People Hoodie", price: 70, image: "img/cat-item01.jpg"},
-        {name: "Mango People Coat", price: 120, image: "img/cat-item02.jpg"},
-        {name: "Mango People Blazer", price: 80, image: "img/cat-item07.jpg"},
-        {name: "Mango People T-shirt", price: 50, image: "img/cat-item04.jpg"},
-        {name: "Mango People Sweater", price: 90, image: "img/cat-item05.jpg"},
-        {name: "Mango People Windbreaker", price: 100, image: "img/cat-item06.jpg"},
-        {name: "Mango People Blazer", price: 80, image: "img/cat-item07.jpg"},
-        {name: "Mango People Jacket", price: 110, image: "img/cat-item08.jpg"},
-        {name: "Mango People T-shirt", price: 50, image: "img/cat-item09.jpg"}
-    ];
+    class Product {
+        constructor(name, price, image) {
+            this.name = name;
+            this.price = price;
+            this.image = image;
+        }
 
-    const renderProduct = ({name, price, image="img/cat-item01.jpg"}) =>
-        `<div class="product-box__item">
+        render() {
+            return `<div class="product-box__item">
             <a href="#" class="product-box__product">
-                <img src=${image} alt="Product" class="product-box__img">
+                <img src=${this.image} alt="Product" class="product-box__img">
             </a>
             <div class="product-box__overlay d-flex">
                  <a href="#" class="product-box__add-cart">
@@ -111,16 +107,59 @@
                  </a>
             </div>
             <div class="product-box__description">
-                <p class="product-box__text">${name}</p>
-                <p class="product-box__price">$${price}</p>
+                <p class="product-box__text">${this.name}</p>
+                <p class="product-box__price">$${this.price}</p>
             </div>
         </div>`;
+        }
+    }
 
-    const renderProductList = products => {
-        document.querySelector(".product-box").innerHTML = products.map(renderProduct).join("");
-    };
+    class ProductCatalog {
+        constructor() {
+            this.products = [];
+        }
 
-    renderProductList(products);
+        fetchProducts() {
+            this.products = [
+                {name: "Mango People Hoodie", price: 70, image: "img/cat-item01.jpg"},
+                {name: "Mango People Coat", price: 120, image: "img/cat-item02.jpg"},
+                {name: "Mango People Blazer", price: 80, image: "img/cat-item07.jpg"},
+                {name: "Mango People T-shirt", price: 50, image: "img/cat-item04.jpg"},
+                {name: "Mango People Sweater", price: 90, image: "img/cat-item05.jpg"},
+                {name: "Mango People Windbreaker", price: 100, image: "img/cat-item06.jpg"},
+                {name: "Mango People Blazer", price: 80, image: "img/cat-item07.jpg"},
+                {name: "Mango People Jacket", price: 110, image: "img/cat-item08.jpg"},
+                {name: "Mango People T-shirt", price: 50, image: "img/cat-item09.jpg"}
+            ];
+
+            this.products = this.products.map(product => new Product(product.name, product.price, product.image));
+        }
+
+        getFullSum() {
+            let sum = 0;
+            for (let i of this.products) {
+                sum += i.price;
+            }
+            return `Общая сумма товаров каталога составляет ${sum}$`;
+        }
+
+        render() {
+            return this.products.map(product => product.render()).join("");
+        }
+
+        remove() {
+            this.products.splice(0, 1); //удаляем первый элемент массива products
+            return this.products.map(product => product.render()).join("");
+        }
+    }
+
+
+    const products = new ProductCatalog();
+    products.fetchProducts();
+
+    document.querySelector(".product-box").innerHTML = products.render();
+    document.querySelector(".product-box").innerHTML = products.remove();
+    console.log(products.getFullSum());
 </script>
 </body>
 </html>
