@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Проверка формы на введенные данные</title>
+    <style>
+        .ship_form {
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+            height: 400px;
+            justify-content: space-around;
+        }
+
+        .input_form {
+            border: 1px solid green;
+            padding-left: 15px;
+            padding-right: 15px;
+            line-height: 20px;
+            font-size: 14px;
+            outline: 0;
+        }
+
+        .area_form {
+            border: 1px solid green;
+            outline: 0;
+        }
+
+        .area_form {
+            font-size: 14px;
+        }
+
+        .button_form {
+            cursor: pointer;
+            border: 1px solid green;
+            padding-left: 15px;
+            padding-right: 15px;
+            line-height: 17px;
+            font-size: 14px;
+            font-weight: 700;
+            background-color: #ffffff;
+            color: green;
+            outline: 0;
+        }
+
+        .button_form:hover {
+            color: #ffffff;
+            background-color: green;
+        }
+
+        .warning {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<form id="form" class="ship_form" action="#">
+    <input id="name" class="input_form" type="text" placeholder="Введите имя">
+    <input id="phone" class="input_form" type="text" placeholder="Введите номер телефона">
+    <input id="mail" class="input_form" type="text" placeholder="Введите e-mail">
+    <textarea name="area_comment" class="area_form" id="area" cols="30" rows="10"
+              placeholder="Оставьте комментарий"></textarea>
+    <button id="send" class="button_form" type="button">Отправить</button>
+</form>
+<script>
+    //Задание 1
+
+    const regexp = /\'/g;
+
+    console.log("\'Hello, world\'".replace(regexp, "\""));
+
+
+    //Задание 2
+
+    const regexp1 = /('\B|\B')/g;
+
+    console.log("\'I'm Evgeny Khabirov. I'm 28.\'".replace(regexp1, "\""));
+
+
+    //Задание 3
+    const $form = document.getElementById("form");
+    const $warningText = document.createElement("p");
+    $warningText.classList.add("warning");
+    $form.appendChild($warningText);
+
+    function handleButtonSendForm() {
+        const regPhone = /^\+\d\(\d{3}\)\d{3}-\d{4}$/;
+        const regName = /^[A-za-zА-яа-я]+$/gi;
+        const regMail = /[a-z-\.]+@[a-z]+\.[a-z]{2}$/gi;
+
+        const $inputs = document.getElementsByClassName("input_form");
+        let warningMessage = "Неверно введено";
+
+        if (regName.test($inputs[0].value) === false) {
+            $inputs[0].style.border = "1px solid red";
+            warningMessage += " имя ";
+            $warningText.textContent = warningMessage;
+        } else {
+            $inputs[0].style.border = "1px solid green";
+        }
+
+        if (regPhone.test($inputs[1].value) === false) {
+            $inputs[1].style.border = "1px solid red";
+            warningMessage += " телефон ";
+            $warningText.textContent = warningMessage;
+        } else {
+            $inputs[1].style.border = "1px solid green";
+        }
+
+        if (regMail.test($inputs[2].value) === false) {
+            $inputs[2].style.border = "1px solid red";
+            warningMessage += " e-mail ";
+            $warningText.textContent = warningMessage;
+        } else {
+            $inputs[1].style.border = "1px solid green";
+        }
+    }
+
+    const $button = document.getElementById("send");
+    $button.addEventListener("click", handleButtonSendForm);
+
+</script>
+</body>
+</html>
