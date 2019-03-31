@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Каталог товаров</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+          integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<header class="header not-main-header">
+    <div class="container">
+        <div class="top-nav d-flex align-i-с space-btw">
+            <div class="nav-left d-flex align-i-с">
+                <a class="nav-left__logo d-flex logo" href="#">
+                    <img src="../img/logo.png" class="logo__img" alt="Brand">
+                    <span class="logo__text">
+                        BRAN
+                    </span>
+                    <span class="logo__text logo__text_pink">
+                        D
+                    </span>
+                </a>
+                <div class="nav-left__menu d-flex align-i-с">
+                    <div class="nav-left__drop">
+                        <a href="#" class="nav-left__browse d-flex">
+                            Browse
+                            <i class="fas fa-caret-down nav-left__triangle"></i>
+                        </a>
+                    </div>
+                    <input class=" nav-left__input" type="text" placeholder="Search for Item...">
+                    <button class=" nav-left__search button" type="button">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="nav-right d-flex align-i-с">
+                <div class="nav-right__drop">
+                    <a href="#" class="nav-right__img">
+                        <img src="../img/cart.svg" alt="cart">
+                    </a>
+                </div>
+                <button type="button" class="nav-right__btn button">
+                    My Account
+                    <i class="fas fa-caret-down"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="navigation">
+        <div class="container">
+            <nav class="nav">
+                <ul class="menu d-flex">
+
+                </ul>
+            </nav>
+        </div>
+    </div>
+</header>
+<section class="main">
+    <div class="container">
+        <div class="product-box d-flex space-btw">
+
+        </div>
+    </div>
+</section>
+<section class="cart-content">
+    <div class="container">
+        <div class="line">
+            <div class="column-wide">
+                <h3 class="content-heading">
+                    Product Details
+                </h3>
+            </div>
+            <div class="column-short">
+                <h3 class="content-heading">
+                    Unit Price
+                </h3>
+            </div>
+            <div class="column-short">
+                <h3 class="content-heading">
+                    Quantity
+                </h3>
+            </div>
+            <div class="column-short">
+                <h3 class="content-heading">
+                    ACTION
+                </h3>
+            </div>
+        </div>
+        <div class="cart">
+
+        </div>
+
+    </div>
+</section>
+<script>
+    //Создание меню
+    const menuLinks = [
+        {link: "Home"},
+        {link: "Men"},
+        {link: "Women"},
+        {link: "Kids"},
+        {link: "Accessories"},
+        {link: "Featured"},
+        {link: "Hot Deals"}
+    ];
+
+    const renderMenu = ({link}) =>
+        `<li class="menu__list">
+             <a href="#" class="menu__link">${link}</a>
+         </li>`;
+
+    const renderMenuList = links => {
+        document.querySelector(".menu").innerHTML = links.map(renderMenu).join("");
+    };
+
+    renderMenuList(menuLinks);
+
+    //Создание каталога товаров
+    function sendRequest(url){
+        return new Promise((resolve) => {
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", url);
+            xhr.send();
+
+            xhr.onreadystatechange = () => {
+                if(xhr.readyState === XMLHttpRequest.DONE) {
+                    resolve(JSON.parse(xhr.responseText));
+                }
+            }
+
+        })
+    }
+
+    const API_URL = "http://localhost:3000";
+
+    class Product {
+        constructor(id, name, price, image) {
+            this.id = id;
+            this.name = name;
+            this.price = price;
+            this.image = image;
+        }
+
+        render() {
+            return `<div id=${this.id} class="product-box__item">
+            <a href="#" class="product-box__product">
+                <img src=${this.image} alt="Product" class="product-box__img">
+            </a>
+            <div class="product-box__overlay d-flex">
+                 <button type="button" id="button${this.id}" class="product-box__add-cart" data-id=${this.id} data-name="${this.name}" data-price=${this.price} data-image="${this.image}">
+                      Add to Cart
+                 </button>
+            </div>
+            <div class="product-box__description">
+                <p class="product-box__text">${this.name}</p>
+                <p class="product-box__price">$${this.price}</p>
+            </div>
+        </div>`;
+        }
+    }
+
+    class ProductCatalog {
+        constructor() {
+            this.products = [];
+        }
+
+        fetchProducts() {
+            return new Promise((resolve) => {
+                resolve(sendRequest(`${API_URL}/products`).then(
+                    (products) => {
+                        this.products = products.map(product => new Product(product.id, product.name, product.price, product.image));
+                    }
+                ));
+            });
+        }
+
+        total() {
+            return this.products.reduce((acc, product) => acc + +product.price, 0);
+        }
+
+        render() {
+            return this.products.map(product => product.render()).join("");
+        }
+    }
+
+
+    const products = new ProductCatalog();
+
+    products.fetchProducts().then(
+        () => {
+            document.querySelector(".product-box").innerHTML = products.render();
+        }
+    );
+
+   class ProductCart {
+       constructor(id, name, price, image) {
+           this.id = id;
+           this.name = name;
+           this.price = price;
+           this.image = image;
+       }
+
+       render(){
+            return `<div id=${this.id} class="line">
+                <div class="column-wide">
+                    <figure class="cart-item d-flex">
+                        <a href="#">
+                            <img src=${this.image} width="100" height="115" alt="Product picture" class="cart-item__img">
+                        </a>
+                        <figcaption>
+                            <h3 class="cart-item__title">
+                                ${this.name}
+                            </h3>
+                            <p class="cart-item__text">
+                                Color:
+                                <span>
+                                Red
+                            </span>
+                            </p>
+                            <p class="cart-item__text">
+                                Size:
+                                <span>
+                                Xll
+                            </span>
+                            </p>
+                        </figcaption>
+                    </figure>
+                </div>
+                <div class="column-short">
+                    <p class="cart-text">
+                        $${this.price}
+                    </p>
+                </div>
+                <div class="column-short">
+                    <label>
+                        <input type="number" class="cart-quantity" placeholder="1">
+                    </label>
+                </div>
+                <div class="column-short">
+                    <button type="button" class="cart-icon" data-id="${this.id}">
+                        <i class="far fa-times-circle"></i>
+                    </button>
+                </div>
+            </div>
+        </div>`
+       }
+   }
+
+    class Cart {
+        constructor() {
+            this.products = [];
+        }
+
+        fetchProducts() {
+            return new Promise((resolve) => {
+                resolve(sendRequest(`${API_URL}/cart`).then(
+                    (products) => {
+                        this.products = products.map(product => new ProductCart(product.id, product.name, product.price, product.image));
+                    }
+                ));
+            });
+        }
+
+        total() {
+            return this.products.reduce((acc, product) => acc + product.price, 0);
+        }
+
+        render() {
+            return this.products.map(product => product.render()).join("");
+        }
+
+        addToCart (good) {
+
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", `${API_URL}/cart`, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = () => {
+                if(xhr.readyState === XMLHttpRequest.DONE) {
+                    JSON.parse(xhr.responseText);
+                }
+            };
+
+            const newProduct = JSON.stringify(good);
+            xhr.send(newProduct);
+        }
+
+        deleteProduct(good) {
+            const xhr = new XMLHttpRequest();
+            xhr.open("DELETE", `${API_URL}/cart/${good.id}`, true);
+            xhr.send();
+        }
+    }
+
+    const cart = new Cart();
+
+    const $buttonsBuy = document.querySelector(".product-box");
+    $buttonsBuy.addEventListener("click", (event) => {
+        const good = event.target.dataset;
+        cart.addToCart(good);
+        cart.fetchProducts().then(
+            () => {
+                document.querySelector(".cart").innerHTML = cart.render();
+            }
+        );
+    });
+
+    const $buttonsDelete = document.querySelector(".cart");
+    $buttonsDelete.addEventListener("click", (event) => {
+        const good = event.target.parentNode.dataset;
+        cart.deleteProduct(good);
+        cart.fetchProducts().then(
+            () => {
+                document.querySelector(".cart").innerHTML = cart.render();
+            }
+        );
+    });
+
+
+</script>
+</body>
+</html>
