@@ -30,10 +30,7 @@
                                 <i class="fas fa-caret-down nav-left__triangle"></i>
                             </a>
                         </div>
-                        <input v-model="searchQuery" class=" nav-left__input" type="text" placeholder="Search for Item...">
-                        <button class=" nav-left__search button" type="button" @click="handleSearchClick">
-                            <i class="fas fa-search"></i>
-                        </button>
+                        <search @onsearch="handleSearchClick"></search>
                     </div>
                 </div>
                 <div class="nav-right d-flex align-i-с">
@@ -41,78 +38,7 @@
                         <button type="button" class="nav-right__img" @click="isVisibleCart = !isVisibleCart">
                             <img src="../img/cart.svg" alt="cart">
                         </button>
-                        <div v-if="isVisibleCart" class="drop-box-cart">
-                            <ul class="box-cart">
-                                <li class="box-cart__item d-flex align-i-с">
-                                    <img src="../img/Cart_image1.jpg" alt="product_photo">
-                                    <div class="box-cart__wrap">
-                                        <p class="box-cart__title">
-                                            Rebox Zane
-                                        </p>
-                                        <div class="box-cart__stars">
-                                            <a href="#" class="box-cart__star">
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                            </a>
-                                            <a href="#" class="box-cart__star">
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                            </a>
-                                            <a href="#" class="box-cart__star">
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                            </a>
-                                            <a href="#" class="box-cart__star">
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                            </a>
-                                            <a href="#" class="box-cart__star">
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                            </a>
-                                        </div>
-                                        <p class="box-cart__price">1 x $250</p>
-                                    </div>
-                                    <a href="#" class="box-cart__icon">
-                                        <i class="fas fa-times-circle"></i>
-                                    </a>
-                                </li>
-                                <li class="box-cart__item d-flex align-i-с">
-                                    <img src="../img/Cart_image2.jpg" alt="product_photo">
-                                    <div class="box-cart__wrap">
-                                        <p class="box-cart__title">
-                                            Rebox Zane
-                                        </p>
-                                        <div class="box-cart__stars">
-                                            <a href="#" class="box-cart__star">
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                            </a>
-                                            <a href="#" class="box-cart__star">
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                            </a>
-                                            <a href="#" class="box-cart__star">
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                            </a>
-                                            <a href="#" class="box-cart__star">
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                            </a>
-                                            <a href="#" class="box-cart__star">
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                            </a>
-                                        </div>
-                                        <p class="box-cart__price">1 x $250</p>
-                                    </div>
-                                    <a href="#" class="box-cart__icon">
-                                        <i class="fas fa-times-circle"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                            <div class="box-cart__total d-flex space-btw">
-                                <p class="box-cart__text">TOTAL</p>
-                                <p class="box-cart__text">$500.00</p>
-                            </div>
-                            <a href="#" class="box-cart__btn button">
-                                Checkout
-                            </a>
-                            <a href="#" class="box-cart__btn button">
-                                Go to cart
-                            </a>
-                        </div>
+                        <cart :query="filterValue" v-if="isVisibleCart" @ondelete="handleDeleteClick"></cart>
                     </div>
                     <button type="button" class="nav-right__btn button">
                         My Account
@@ -135,90 +61,11 @@
     </header>
     <section class="main">
         <div class="container">
-            <div class="product-box d-flex space-btw">
-                <h3 v-if="filteredItems.length === 0">Ничего не нашлось. Попробуйте ввести другой запрос.</h3>
-                <div v-for="item in filteredItems" class="product-box d-flex space-btw">
-                    <div :id="item.id" class="product-box__item">
-                        <a href="#" class="product-box__product">
-                            <img :src="item.image" alt="Product" class="product-box__img">
-                        </a>
-                        <div class="product-box__overlay d-flex">
-                            <button type="button" class="product-box__add-cart" :data-id="item.id" :data-name="item.name" :data-price="item.price" :data-image="item.image">
-                                Add to Cart
-                            </button>
-                        </div>
-                        <div class="product-box__description">
-                            <p class="product-box__text">{{item.name}}</p>
-                            <p class="product-box__price">${{item.price}}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="cart-content">
-        <div class="container">
-            <div class="line">
-                <div class="column-wide">
-                    <h3 class="content-heading">
-                        Product Details
-                    </h3>
-                </div>
-                <div class="column-short">
-                    <h3 class="content-heading">
-                        Unit Price
-                    </h3>
-                </div>
-                <div class="column-short">
-                    <h3 class="content-heading">
-                        Quantity
-                    </h3>
-                </div>
-                <div class="column-short">
-                    <h3 class="content-heading">
-                        ACTION
-                    </h3>
-                </div>
-            </div>
-            <div class="cart">
-
-            </div>
-
+            <products :query="filterValue" @onbuy="handleBuyClick"></products>
         </div>
     </section>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.min.js"></script>
-<script>
-    const app = new Vue({
-        el: "#app",
-        data: {
-            items: [],
-            filteredItems: [],
-            menuItems: [],
-            searchQuery: "",
-            isVisibleCart: false,
-        },
-        mounted() {
-            fetch("http://localhost:3000/products")
-                .then(response => response.json())
-                .then((items) => {
-                    this.items = items;
-                    this.filteredItems = items;
-                });
-
-            fetch("http://localhost:3000/menu")
-                .then(response => response.json())
-                .then((links) => {
-                    this.menuItems = links;
-                });
-        },
-        methods: {
-            handleSearchClick() {
-                const regexp = new RegExp(this.searchQuery, 'i');
-                return this.filteredItems = this.items.filter(item => regexp.test(item.name));
-            }
-        }
-    })
-</script>
+<script src="cart.js"></script>
 </body>
 </html>
