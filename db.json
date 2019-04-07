@@ -56,17 +56,16 @@
     }
   ],
   "cart": [
-    {
-      "id": "1",
-      "name": "Mango People Hoodie",
-      "price": "70",
-      "image": "img/cat-item01.jpg"
-    },
-    {
-      "id": "2",
-      "name": "Mango People Coat",
-      "price": "120",
-      "image": "img/cat-item02.jpg"
-    }
+
+  ],
+
+  "menu": [
+    {"id": 1, "link": "Home"},
+    {"id": 1, "link": "Men"},
+    {"id": 1, "link": "Women"},
+    {"id": 1, "link": "Kids"},
+    {"id": 1, "link": "Accessories"},
+    {"id": 1, "link": "Featured"},
+    {"id": 1, "link": "Hot Deals"}
   ]
 }
