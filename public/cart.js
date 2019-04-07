@@ -2,11 +2,11 @@ const API_URL = 'http://localhost:3000';
 
 Vue.component('search', {
     data() {
-      return {
-        searchQuery: '',
-      };
+        return {
+            searchQuery: '',
+        };
     },
-    template:`
+    template: `
         <div class="search">
            <input v-model="searchQuery" class=" nav-left__input" type="text" placeholder="Search for Item...">
                <button class=" nav-left__search button" type="button" @click.prevent="handleSearchClick">
@@ -15,7 +15,7 @@ Vue.component('search', {
         </div>
     `,
     methods: {
-        handleSearchClick(){
+        handleSearchClick() {
             this.$emit('onsearch');
         }
     }
@@ -61,7 +61,7 @@ Vue.component('products', {
     },
     computed: {
         filteredItems() {
-            if(this.query) {
+            if (this.query) {
                 const regexp = new RegExp(this.query, 'i');
                 return this.items.filter((item) => regexp.test(item.name));
             } else {
@@ -137,7 +137,7 @@ Vue.component('cart', {
     },
     computed: {
         filteredItems() {
-            if(this.query) {
+            if (this.query) {
                 const regexp = new RegExp(this.query, 'i');
                 return this.cart.filter((item) => regexp.test(item.name));
             } else {
@@ -145,7 +145,7 @@ Vue.component('cart', {
             }
         },
         total() {
-            return this.cart.reduce((acc, item) => acc + item.quantity*item.price, 0);
+            return this.cart.reduce((acc, item) => acc + item.quantity * item.price, 0);
         }
     },
     mounted() {
@@ -204,7 +204,7 @@ const app = new Vue({
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ quantity: cartItem.quantity + 1 }),
+                    body: JSON.stringify({quantity: cartItem.quantity + 1}),
                 })
                     .then((response) => response.json())
                     .then((item) => {
@@ -218,7 +218,7 @@ const app = new Vue({
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ ...item, quantity: 1 })
+                    body: JSON.stringify({...item, quantity: 1})
                 })
                     .then((response) => response.json())
                     .then((item) => {
@@ -233,7 +233,7 @@ const app = new Vue({
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ quantity: item.quantity - 1 }),
+                    body: JSON.stringify({quantity: item.quantity - 1}),
                 })
                     .then((response) => response.json())
                     .then((item) => {
