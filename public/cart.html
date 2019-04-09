@@ -38,7 +38,7 @@
                         <button type="button" class="nav-right__img" @click="isVisibleCart = !isVisibleCart">
                             <img src="../img/cart.svg" alt="cart">
                         </button>
-                        <cart :query="filterValue" v-if="isVisibleCart" @ondelete="handleDeleteClick"></cart>
+                        <cart :cart="cart" v-if="isVisibleCart" @ondelete="handleDeleteClick"></cart>
                     </div>
                     <button type="button" class="nav-right__btn button">
                         My Account
