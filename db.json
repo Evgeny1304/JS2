@@ -55,17 +55,35 @@
       "image": "img/cat-item09.jpg"
     }
   ],
-  "cart": [
-
-  ],
-
+  "cart": [],
   "menu": [
-    {"id": 1, "link": "Home"},
-    {"id": 1, "link": "Men"},
-    {"id": 1, "link": "Women"},
-    {"id": 1, "link": "Kids"},
-    {"id": 1, "link": "Accessories"},
-    {"id": 1, "link": "Featured"},
-    {"id": 1, "link": "Hot Deals"}
+    {
+      "id": 1,
+      "link": "Home"
+    },
+    {
+      "id": 1,
+      "link": "Men"
+    },
+    {
+      "id": 1,
+      "link": "Women"
+    },
+    {
+      "id": 1,
+      "link": "Kids"
+    },
+    {
+      "id": 1,
+      "link": "Accessories"
+    },
+    {
+      "id": 1,
+      "link": "Featured"
+    },
+    {
+      "id": 1,
+      "link": "Hot Deals"
+    }
   ]
 }
