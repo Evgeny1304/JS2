@@ -1,0 +1,56 @@
+[
+  {
+    "id": 1,
+    "name": "Mango People Hoodie",
+    "price": 70,
+    "image": "img/cat-item01.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Mango People Coat",
+    "price": 120,
+    "image": "img/cat-item02.jpg"
+  },
+  {
+    "id": 3,
+    "name": "Mango People Blazer",
+    "price": 80,
+    "image": "img/cat-item07.jpg"
+  },
+  {
+    "id": 4,
+    "name": "Mango People T-shirt",
+    "price": 50,
+    "image": "img/cat-item04.jpg"
+  },
+  {
+    "id": 5,
+    "name": "Mango People Sweater",
+    "price": 90,
+    "image": "img/cat-item05.jpg"
+  },
+  {
+    "id": 6,
+    "name": "Mango People Windbreaker",
+    "price": 100,
+    "image": "img/cat-item06.jpg"
+  },
+  {
+    "id": 7,
+    "name": "Mango People Blazer",
+    "price": 80,
+    "image": "img/cat-item07.jpg"
+  },
+  {
+    "id": 8,
+    "name": "Mango People Jacket",
+    "price": 110,
+    "image": "img/cat-item08.jpg"
+  },
+  {
+    "id": 9,
+    "name": "Mango People T-shirt",
+    "price": 50,
+    "image": "img/cat-item09.jpg"
+  }
+]
