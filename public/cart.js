@@ -16,7 +16,7 @@ Vue.component('search', {
     `,
     methods: {
         handleSearchClick() {
-            this.$emit('onsearch');
+            this.$emit('onsearch', this.searchQuery);
         }
     }
 });
@@ -83,82 +83,50 @@ Vue.component('products', {
   `,
 });
 
-Vue.component('cart-item', {
-    props: ['item'],
-    template: `
-      <li class="box-cart__item d-flex align-i-с">
-        <img :src="item.image" width="72" height="85" alt="product_photo">
-          <div class="box-cart__wrap">
-                <p class="box-cart__title">
-                    {{item.name}}
-                </p>
-             <div class="box-cart__stars">
-                 <a href="#" class="box-cart__star">
-                     <i class="fa fa-star" aria-hidden="true"></i>
-                 </a>
-                 <a href="#" class="box-cart__star">
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                 </a>
-                 <a href="#" class="box-cart__star">
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                 </a>
-                 <a href="#" class="box-cart__star">
-                   <i class="fa fa-star" aria-hidden="true"></i>
-                 </a>
-                 <a href="#" class="box-cart__star">
-                     <i class="fa fa-star" aria-hidden="true"></i>
-                 </a>
-              </div>
-                <p class="box-cart__price">{{item.quantity}} x {{item.price}}</p>
-           </div>
-         <button type="button" class="box-cart__icon" @click.prevent="handleDeleteClick(item)">
-             <i class="fas fa-times-circle"></i>
-         </button>
-      </li>     
-  `,
-    methods: {
-        handleDeleteClick(item) {
-            this.$emit('onDelete', item);
-        }
-    }
-});
-
 Vue.component('cart', {
-    props: ['query'],
+    props: ['cart'],
     methods: {
         handleDeleteClick(item) {
             this.$emit('ondelete', item);
         },
     },
-    data() {
-        return {
-            cart: [],
-        };
-    },
     computed: {
-        filteredItems() {
-            if (this.query) {
-                const regexp = new RegExp(this.query, 'i');
-                return this.cart.filter((item) => regexp.test(item.name));
-            } else {
-                return this.cart;
-            }
-        },
         total() {
             return this.cart.reduce((acc, item) => acc + item.quantity * item.price, 0);
         }
     },
-    mounted() {
-        fetch(`${API_URL}/cart`)
-            .then(response => response.json())
-            .then((items) => {
-                this.cart = items;
-            });
-    },
     template: `
     <div class="drop-box-cart">
         <ul class="box-cart">
-          <cart-item v-for="entry in filteredItems" :item="entry" @onDelete="handleDeleteClick"></cart-item>
+           <li v-for="item in cart" class="box-cart__item d-flex align-i-с">
+            <img :src="item.image" width="72" height="85" alt="product_photo">
+              <div class="box-cart__wrap">
+                    <p class="box-cart__title">
+                        {{item.name}}
+                    </p>
+                 <div class="box-cart__stars">
+                     <a href="#" class="box-cart__star">
+                         <i class="fa fa-star" aria-hidden="true"></i>
+                     </a>
+                     <a href="#" class="box-cart__star">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                     </a>
+                     <a href="#" class="box-cart__star">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                     </a>
+                     <a href="#" class="box-cart__star">
+                       <i class="fa fa-star" aria-hidden="true"></i>
+                     </a>
+                     <a href="#" class="box-cart__star">
+                         <i class="fa fa-star" aria-hidden="true"></i>
+                     </a>
+                  </div>
+                    <p class="box-cart__price">{{item.quantity}} x {{item.price}}</p>
+               </div>
+             <button type="button" class="box-cart__icon" @click="handleDeleteClick(item)">
+                 <i class="fas fa-times-circle"></i>
+             </button>
+          </li>  
         </ul>
         <div class="box-cart__total d-flex space-btw">
             <p class="box-cart__text">TOTAL</p>
@@ -192,8 +160,8 @@ const app = new Vue({
             });
     },
     methods: {
-        handleSearchClick() {
-            this.filterValue = this.searchQuery;
+        handleSearchClick(query) {
+            this.filterValue = query;
         },
         handleBuyClick(item) {
             const cartItem = this.cart.find((entry) => entry.id === item.id);
